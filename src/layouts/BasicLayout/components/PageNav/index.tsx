@@ -7,6 +7,7 @@ import { asideMenuConfig } from '../../menuConfig';
 const SubNav = Nav.SubNav;
 const NavItem = Nav.Item;
 
+//定义一个导航菜单
 export interface IMenuItem {
   name: string;
   path: string;
@@ -14,6 +15,7 @@ export interface IMenuItem {
   children?: IMenuItem[];
 }
 
+//根据配置的导航数据，获得nav子节点
 function getNavMenuItems(menusData: any[], initIndex?: number | string) {
   if (!menusData) {
     return [];
@@ -26,6 +28,7 @@ function getNavMenuItems(menusData: any[], initIndex?: number | string) {
     });
 }
 
+//得到subItem
 function getSubMenuOrItem(item: IMenuItem, index?: number | string) {
   if (item.children && item.children.some(child => child.name)) {
     const childrenItems = getNavMenuItems(item.children, index);
@@ -55,6 +58,7 @@ function getSubMenuOrItem(item: IMenuItem, index?: number | string) {
   return navItem;
 }
 
+//传递参数，是否闭合状态
 const Navigation = (props, context) => {
   const { location } = props;
   const { pathname } = location;

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Shell, ConfigProvider } from '@alifd/next';
 import PageNav from './components/PageNav';
-import Logo from './components/Logo';
+import Head from './components/Head';
 import Footer from './components/Footer';
+import DocAttrAction from './components/DocAttrAction';
+import DocAction from './components/DocAction';
+
+
+//第一次载入时，去掉所有的事件监听，并加入调整大小监听
 (function() {
   const throttle = function(type: string, name: string, obj: Window = window) {
     let running = false;
@@ -27,6 +32,7 @@ import Footer from './components/Footer';
   }
 })();
 
+
 interface IGetDevice {
   (width: number): 'phone' | 'tablet' | 'desktop';
 }
@@ -35,6 +41,7 @@ export default function BasicLayout({
 }: {
   children: React.ReactNode;
 }) {
+  //定义一个获得的设备宽度
   const getDevice: IGetDevice = width => {
     const isPhone =
       typeof navigator !== 'undefined' &&
@@ -50,6 +57,7 @@ export default function BasicLayout({
     }
   };
 
+  //调整设备页面大小时，设置设备的大小
   const [device, setDevice] = useState(getDevice(NaN));
 
   if (typeof window !== 'undefined') {
@@ -61,26 +69,36 @@ export default function BasicLayout({
   }
 
   return (
+    //提供国际化支持
     <ConfigProvider device={device}>
       <Shell
-        type="brand"
+        type="brand" // 样式定义，主题色，深，浅，主题色主题
         style={{
           minHeight: '100vh',
         }}
       >
         <Shell.Branding>
-          <Logo
-            image="https://img.alicdn.com/tfs/TB1.ZBecq67gK0jSZFHXXa9jVXa-904-826.png"
-            text="Logo"
-          />
+          <Head/>
+          
+          
         </Shell.Branding>
+
+          
+
         <Shell.Navigation
           direction="hoz"
           style={{
             marginRight: 10,
           }}
-        ></Shell.Navigation>
-        <Shell.Action></Shell.Action>
+        >
+          <DocAction></DocAction>
+        </Shell.Navigation>
+
+        <Shell.Action>
+        <DocAttrAction></DocAttrAction>
+        </Shell.Action>
+
+
         <Shell.Navigation>
           <PageNav />
         </Shell.Navigation>
